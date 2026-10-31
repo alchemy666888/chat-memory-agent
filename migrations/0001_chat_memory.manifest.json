@@ -1,0 +1,291 @@
+{
+  "columns": [
+    {
+      "table_name": "chat_memories",
+      "column_name": "telegram_chat_id",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "is_identity": "NO",
+      "identity_generation": null
+    },
+    {
+      "table_name": "chat_memories",
+      "column_name": "summary_text",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "''::text",
+      "is_identity": "NO",
+      "identity_generation": null
+    },
+    {
+      "table_name": "chat_memories",
+      "column_name": "summary_version",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "column_default": "0",
+      "is_identity": "NO",
+      "identity_generation": null
+    },
+    {
+      "table_name": "chat_memories",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": null,
+      "is_identity": "NO",
+      "identity_generation": null
+    },
+    {
+      "table_name": "chat_memories",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": null,
+      "is_identity": "NO",
+      "identity_generation": null
+    },
+    {
+      "table_name": "chat_memories",
+      "column_name": "summarized_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null,
+      "is_identity": "NO",
+      "identity_generation": null
+    },
+    {
+      "table_name": "chat_memories",
+      "column_name": "processing_token",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "is_identity": "NO",
+      "identity_generation": null
+    },
+    {
+      "table_name": "chat_memories",
+      "column_name": "processing_lease_expires_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null,
+      "is_identity": "NO",
+      "identity_generation": null
+    },
+    {
+      "table_name": "raw_messages",
+      "column_name": "raw_message_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "column_default": null,
+      "is_identity": "YES",
+      "identity_generation": "ALWAYS"
+    },
+    {
+      "table_name": "raw_messages",
+      "column_name": "telegram_chat_id",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "is_identity": "NO",
+      "identity_generation": null
+    },
+    {
+      "table_name": "raw_messages",
+      "column_name": "event_key",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "is_identity": "NO",
+      "identity_generation": null
+    },
+    {
+      "table_name": "raw_messages",
+      "column_name": "turn_id",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "is_identity": "NO",
+      "identity_generation": null
+    },
+    {
+      "table_name": "raw_messages",
+      "column_name": "source_update_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "column_default": null,
+      "is_identity": "NO",
+      "identity_generation": null
+    },
+    {
+      "table_name": "raw_messages",
+      "column_name": "source_message_id",
+      "data_type": "bigint",
+      "is_nullable": "YES",
+      "column_default": null,
+      "is_identity": "NO",
+      "identity_generation": null
+    },
+    {
+      "table_name": "raw_messages",
+      "column_name": "role",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "is_identity": "NO",
+      "identity_generation": null
+    },
+    {
+      "table_name": "raw_messages",
+      "column_name": "content",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "is_identity": "NO",
+      "identity_generation": null
+    },
+    {
+      "table_name": "raw_messages",
+      "column_name": "occurred_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": null,
+      "is_identity": "NO",
+      "identity_generation": null
+    },
+    {
+      "table_name": "raw_messages",
+      "column_name": "received_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "is_identity": "NO",
+      "identity_generation": null
+    },
+    {
+      "table_name": "raw_messages",
+      "column_name": "status",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "'non-process'::text",
+      "is_identity": "NO",
+      "identity_generation": null
+    },
+    {
+      "table_name": "raw_messages",
+      "column_name": "processed_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null,
+      "is_identity": "NO",
+      "identity_generation": null
+    },
+    {
+      "table_name": "raw_messages",
+      "column_name": "processed_summary_version",
+      "data_type": "bigint",
+      "is_nullable": "YES",
+      "column_default": null,
+      "is_identity": "NO",
+      "identity_generation": null
+    }
+  ],
+  "constraints": [
+    {
+      "name": "chat_memories_chat_id_canonical",
+      "table_name": "chat_memories",
+      "definition": "CHECK (chat_memory.is_canonical_chat_id(telegram_chat_id))"
+    },
+    {
+      "name": "chat_memories_lease_pair",
+      "table_name": "chat_memories",
+      "definition": "CHECK ((((processing_token IS NULL) AND (processing_lease_expires_at IS NULL)) OR ((processing_token IS NOT NULL) AND (processing_lease_expires_at IS NOT NULL))))"
+    },
+    {
+      "name": "chat_memories_pkey",
+      "table_name": "chat_memories",
+      "definition": "PRIMARY KEY (telegram_chat_id)"
+    },
+    {
+      "name": "chat_memories_summary_length",
+      "table_name": "chat_memories",
+      "definition": "CHECK ((char_length(summary_text) <= 8000))"
+    },
+    {
+      "name": "chat_memories_version_nonnegative",
+      "table_name": "chat_memories",
+      "definition": "CHECK ((summary_version >= 0))"
+    },
+    {
+      "name": "raw_messages_chat_event_key",
+      "table_name": "raw_messages",
+      "definition": "UNIQUE (telegram_chat_id, event_key)"
+    },
+    {
+      "name": "raw_messages_chat_fk",
+      "table_name": "raw_messages",
+      "definition": "FOREIGN KEY (telegram_chat_id) REFERENCES chat_memory.chat_memories(telegram_chat_id)"
+    },
+    {
+      "name": "raw_messages_completion_consistency",
+      "table_name": "raw_messages",
+      "definition": "CHECK ((((status = 'non-process'::text) AND (processed_at IS NULL) AND (processed_summary_version IS NULL)) OR ((status = 'processed-completed'::text) AND (processed_at IS NOT NULL) AND (processed_summary_version IS NOT NULL) AND (processed_summary_version > 0))))"
+    },
+    {
+      "name": "raw_messages_content_nonempty",
+      "table_name": "raw_messages",
+      "definition": "CHECK ((char_length(content) > 0))"
+    },
+    {
+      "name": "raw_messages_pkey",
+      "table_name": "raw_messages",
+      "definition": "PRIMARY KEY (raw_message_id)"
+    },
+    {
+      "name": "raw_messages_role",
+      "table_name": "raw_messages",
+      "definition": "CHECK ((role = ANY (ARRAY['user'::text, 'assistant'::text])))"
+    },
+    {
+      "name": "raw_messages_source_message_positive",
+      "table_name": "raw_messages",
+      "definition": "CHECK (((source_message_id IS NULL) OR (source_message_id > 0)))"
+    },
+    {
+      "name": "raw_messages_source_update_nonnegative",
+      "table_name": "raw_messages",
+      "definition": "CHECK ((source_update_id >= 0))"
+    },
+    {
+      "name": "raw_messages_status",
+      "table_name": "raw_messages",
+      "definition": "CHECK ((status = ANY (ARRAY['non-process'::text, 'processed-completed'::text])))"
+    }
+  ],
+  "indexes": [
+    {
+      "name": "chat_memories_pkey",
+      "definition": "CREATE UNIQUE INDEX chat_memories_pkey ON chat_memory.chat_memories USING btree (telegram_chat_id)"
+    },
+    {
+      "name": "raw_messages_chat_event_key",
+      "definition": "CREATE UNIQUE INDEX raw_messages_chat_event_key ON chat_memory.raw_messages USING btree (telegram_chat_id, event_key)"
+    },
+    {
+      "name": "raw_messages_pending_chronological_idx",
+      "definition": "CREATE INDEX raw_messages_pending_chronological_idx ON chat_memory.raw_messages USING btree (telegram_chat_id, occurred_at, source_update_id, (\nCASE role\n    WHEN 'user'::text THEN 0\n    ELSE 1\nEND), raw_message_id) WHERE (status = 'non-process'::text)"
+    },
+    {
+      "name": "raw_messages_pending_oldest_chat_idx",
+      "definition": "CREATE INDEX raw_messages_pending_oldest_chat_idx ON chat_memory.raw_messages USING btree (received_at, telegram_chat_id) WHERE (status = 'non-process'::text)"
+    },
+    {
+      "name": "raw_messages_pending_turn_idx",
+      "definition": "CREATE INDEX raw_messages_pending_turn_idx ON chat_memory.raw_messages USING btree (telegram_chat_id, turn_id) WHERE (status = 'non-process'::text)"
+    },
+    {
+      "name": "raw_messages_pkey",
+      "definition": "CREATE UNIQUE INDEX raw_messages_pkey ON chat_memory.raw_messages USING btree (raw_message_id)"
+    }
+  ]
+}
